@@ -1,0 +1,50 @@
+{% extends './base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container border border-dark mt-3">
+    <h1 class="text-info">Pesquisa Diário Oficial</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                {{ form.name|as_crispy_field }}
+            </div>
+        </div>
+        <button class="btn btn-lg btn-primary mb-3" type="submit">Buscar</button>
+    </form>
+    {% if results %}
+        <h2 class="text-info">Resultados da Pesquisa</h2>
+            
+            <table-responsive>
+                <table class="table table-stripe table-hover table-bordered table-sm">
+                    {% for result in page_obj %}
+                        <tr>
+                            <td>{{ result }}</td>
+                        </tr>
+                    {% endfor %}
+                    <!-- <div class="pagination">
+                        <span class="step-links">
+                          {% if page_obj.has_previous %}
+                            <a href="?page=1">&laquo; first</a>
+                            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                          {% endif %}
+                      
+                          <span class="current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                          </span>
+                      
+                          {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">next</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                          {% endif %}
+                        </span>
+                      </div> -->
+                </table>
+            </table-responsive>
+            
+    {% elif not_found %}
+        <h2>Não foi encontrado nenhum registro</h2>
+    {% endif %}
+</div>
+{% endblock %}
